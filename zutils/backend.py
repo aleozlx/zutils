@@ -1,10 +1,13 @@
-import sys, re, heapq, logging
+import sys, re, heapq, logging, warnings
 from importlib.util import find_spec, module_from_spec, LazyLoader
 logging.basicConfig(level=logging.DEBUG, format='[%(asctime)s] %(message)s', datefmt='%x %H:%M:%S')
 logger = logging.getLogger('zutils')
 
 specs = {
-    'lycon': find_spec('lycon')
+    'lycon': find_spec('lycon'),
+    'skimage': find_spec('skimage'),
+    'skimage.io': find_spec('skimage.io'),
+    'skimage.transform': find_spec('skimage.transform'),
 }
 
 candidate_heaps = dict()
@@ -32,7 +35,12 @@ def optional_import(module):
         m = module_from_spec(spec)
         loader = LazyLoader(spec.loader)
         loader.exec_module(m)
+        # Some modules may dump massive useless logs during import
+        #   ... looking at skimage
+        logging.getLogger().setLevel(logging.CRITICAL)
         sys.modules[module] = m
+        logging.getLogger().setLevel(logging.INFO)
+        logger.info('Found {}'.format(module))
         return m
 
 def select(symbol):
@@ -41,9 +49,12 @@ def select(symbol):
         f.__name__ = symbol
         return f
     else:
-        logger.warning('Function `{}` is not supported by any backend on system.'.format(symbol))
+        warnings.warn('Function `{}` is not supported by any backend on system.'.format(symbol), RuntimeWarning)
 
 lycon = optional_import('lycon')
+skimage = optional_import('skimage')
+skimage_transform = optional_import('skimage.transform')
+skimage_io = optional_import('skimage.io')
 
 @candidate('read_resize')
 def read_resize_00lycon(fname, image_resize, greyscale=False):
@@ -54,3 +65,8 @@ def read_resize_00lycon(fname, image_resize, greyscale=False):
     else:
         return lycon.resize(lycon.load(fname),
             width=image_resize[1], height=image_resize[0])
+
+@candidate('read_resize')
+def read_resize_01skimage(fname, image_resize, greyscale=False):
+    return skimage_transform.resize(skimage_io.imread(fname, as_grey=greyscale), image_resize) * 255.0
+
