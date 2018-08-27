@@ -1,8 +1,8 @@
 # zutils
 
-Machine Learn / Computer Vision processing utility
+Machine Learning / Computer Vision processing utility
 
-* Able to read / resize / preprocess / postprocess in a documented, consistent, well-tested and performant manner.
+* Able to read / resize / preprocess / postprocess batches of images in a documented, consistent, tested and performant manner.
 * Provides building blocks for operationalized processing pipeline.
 * Depends on several image processing or computer vision backends.
   * Select optimal (in logarithmic time) packages available.
