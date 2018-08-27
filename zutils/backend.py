@@ -1,6 +1,6 @@
 import sys, re, heapq, logging, warnings
 from importlib.util import find_spec, module_from_spec, LazyLoader
-logging.basicConfig(level=logging.DEBUG, format='[%(asctime)s] %(message)s', datefmt='%x %H:%M:%S')
+logging.basicConfig(level=logging.DEBUG, format='[%(asctime)s] zutils: %(message)s', datefmt='%x %H:%M:%S')
 logger = logging.getLogger('zutils')
 
 specs = {
@@ -69,4 +69,3 @@ def read_resize_00lycon(fname, image_resize, greyscale=False):
 @candidate('read_resize')
 def read_resize_01skimage(fname, image_resize, greyscale=False):
     return skimage_transform.resize(skimage_io.imread(fname, as_grey=greyscale), image_resize) * 255.0
-
