@@ -7,7 +7,7 @@ Machine Learn / Computer Vision processing utility
 * Depends on several image processing or computer vision backends.
   * Select optimal (in logarithmic time) packages available.
   * Rely on testing to achieve sustainability.
-* Lazy backend import.
+* Lazy backend import to accelerate launch time.
 * Source code is written in a way that won't make pylint scream.
 * Big fan on open source community. To hell with proprietary b.s.
 
@@ -25,3 +25,4 @@ To check API backend selection:
 
 ## zutils.io
 
+* `read_resize(fname, image_resize, greyscale=False)`
