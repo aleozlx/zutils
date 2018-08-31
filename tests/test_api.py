@@ -5,7 +5,13 @@ from zutils.io import read_resize
 ASSETS = lambda fname: os.path.join(os.path.dirname(__file__), 'assets', fname)
 
 def test_read_resize_shape():
-    assert read_resize(ASSETS('beach24.png'), (224,224)).shape == (224,224,3)
+    im_test = read_resize(ASSETS('beach24.png'), (224,224))
+    assert im_test.shape == (224,224,3)
 
 def test_read_resize_dtype():
-    assert read_resize(ASSETS('beach24.png'), (224,224)).dtype == np.dtype('u1')
+    im_test = read_resize(ASSETS('beach24.png'), (224,224))
+    assert im_test.dtype == np.dtype('u1')
+
+def test_read_resize_range():
+    im_test = read_resize(ASSETS('beach24.png'), (224,224))
+    assert 20 < im_test.mean() < 220

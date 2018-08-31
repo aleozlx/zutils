@@ -43,11 +43,17 @@ def optional_import(module):
         logger.info('Found {}'.format(module))
         return m
 
-def select(symbol):
+def select(symbol, backend = None):
+    """ Select implementation from specific backend or top of candidate heap. """
     if symbol in candidate_heaps:
-        _, f = candidate_heaps[symbol][0]
-        f.__name__ = symbol
-        return f
+        if backend is None:
+            _, f = candidate_heaps[symbol][0]
+            # f.__name__ = symbol
+            return f
+        else:
+            # print(candidate_heaps[symbol][0][1].__name__)
+            _, f = next(filter(lambda f_tuple: f_tuple[1].__name__.endswith(backend), candidate_heaps[symbol]))
+            return f
     else:
         warnings.warn('Function `{}` is not supported by any backend on system.'.format(symbol), RuntimeWarning)
 
