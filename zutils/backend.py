@@ -82,4 +82,13 @@ def read_resize_01skimage(fname, image_resize, greyscale=False):
 
 @candidate('sp_mean')
 def sp_mean_00cupy(image, segments):
-    pass
+    image, segments = cp.asarray(image), cp.asarray(segments)
+    N_segments = np.asscalar(cp.asnumpy(cp.max(segments)+1))
+    masks = segments[None,...] == cp.arange(N_segments)[...,None,None]
+    return (cp.sum(image[None,...] * masks, axis = (1,2)) / cp.sum(masks, axis = (1,2))).get()
+
+@candidate('sp_mean')
+def sp_mean_01numpy(image, segments):
+    N_segments = np.max(segments)+1
+    masks = segments[None,...] == np.arange(N_segments)[...,None,None]
+    return np.sum(image[None,...] * masks, axis = (1,2)) / np.sum(masks, axis = (1,2))

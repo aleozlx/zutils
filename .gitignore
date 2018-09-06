@@ -91,3 +91,5 @@ ENV/
 
 .vscode
 .pytest_cache/
+
+tests/*.ipynb

@@ -1,6 +1,6 @@
 import os, sys
 import numpy as np
-from zutils.io import select
+from zutils.backend import select
 
 ASSETS = lambda fname: os.path.join(os.path.dirname(__file__), 'assets', fname)
 
