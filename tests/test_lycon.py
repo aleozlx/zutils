@@ -17,4 +17,4 @@ def test_read_resize_lycon_dtype():
 def test_read_resize_lycon_range():
     read_resize = select('read_resize', backend='lycon')
     im_test = read_resize(ASSETS('beach24.png'), (224,224))
-    assert 179 < im_test.mean() < 180
+    assert 178 < im_test.mean() < 180

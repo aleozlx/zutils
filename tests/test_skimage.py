@@ -17,4 +17,4 @@ def test_read_resize_skimage_dtype():
 def test_read_resize_skimage_range():
     read_resize = select('read_resize', backend='skimage')
     im_test = read_resize(ASSETS('beach24.png'), (224,224))
-    assert 20 < im_test.mean() < 220
+    assert 178 < im_test.mean() < 180

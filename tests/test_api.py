@@ -14,4 +14,4 @@ def test_read_resize_dtype():
 
 def test_read_resize_range():
     im_test = read_resize(ASSETS('beach24.png'), (224,224))
-    assert 179 < im_test.mean() < 180
+    assert 178 < im_test.mean() < 180
