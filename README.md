@@ -2,6 +2,8 @@
 
 Machine Learning / Computer Vision processing utility
 
+[![Travis CI Build Status](https://travis-ci.org/aleozlx/zutils.svg?branch=master)](https://travis-ci.org/aleozlx/zutils)
+
 * Able to read / resize / preprocess / postprocess batches of images in a documented, consistent, tested and performant manner.
 * Provides building blocks for operationalized processing pipeline.
 * Depends on several image processing or computer vision backends.
@@ -14,7 +16,7 @@ Machine Learning / Computer Vision processing utility
 
 1. Check that zutils is exporting all APIs that you need  
   `python -m pytest -v tests/test_api.py`
-2. Import APIs from `ztuils` module, like `from zutils import read_resize`
+2. Import APIs from `ztuils` module, like `from zutils.io import read_resize`
 
 To check API backend selection:
 
@@ -28,4 +30,6 @@ To check API backend selection:
 
 ## TODO
 
-* [ ] + CI
+* [x] + CI
+* [ ] + setup.py
+* [ ] refine documentation
