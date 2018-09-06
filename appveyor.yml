@@ -1,10 +1,8 @@
 image: ubuntu
-stack: python 3.6
 version: 0.1.{build}
-init:
-- pip install pytest
-# install:
-# - npm install
+install:
+- pip3 install wheel six pytest
+- pip3 install numpy scipy scikit-image
 test_script:
-- python -m pytest
+- python3 -m pytest
 build: off
