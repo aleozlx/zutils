@@ -6,7 +6,7 @@ install:
   - pip install numpy>=1.15.0
   - pip install scikit-image>=0.14.0
 script:
-  - python -m pytest
+  - python -m pytest tests/test_api.py
 branches:
   only:
     - master
