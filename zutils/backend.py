@@ -8,6 +8,8 @@ specs = {
     'skimage': find_spec('skimage'),
     'skimage.io': find_spec('skimage.io'),
     'skimage.transform': find_spec('skimage.transform'),
+    'numpy': find_spec('numpy'),
+    'cupy': find_spec('cupy')
 }
 
 candidate_heaps = dict()
@@ -61,6 +63,8 @@ lycon = optional_import('lycon')
 skimage = optional_import('skimage')
 skimage_transform = optional_import('skimage.transform')
 skimage_io = optional_import('skimage.io')
+np = optional_import('numpy')
+cp = optional_import('cupy')
 
 @candidate('read_resize')
 def read_resize_00lycon(fname, image_resize, greyscale=False):
@@ -75,3 +79,7 @@ def read_resize_00lycon(fname, image_resize, greyscale=False):
 @candidate('read_resize')
 def read_resize_01skimage(fname, image_resize, greyscale=False):
     return skimage_transform.resize(skimage_io.imread(fname, as_grey=greyscale), image_resize) * 255.0
+
+@candidate('sp_mean')
+def sp_mean_00cupy(image, segments):
+    pass
