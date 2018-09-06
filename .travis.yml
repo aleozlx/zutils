@@ -3,6 +3,7 @@ python:
   - "3.6"
 install: pip install -r requirements_ci.txt
 script:
+  - python -m pytest tests/test_cicg.py
   - python -m pytest tests/test_api.py
 branches:
   only:
