@@ -12,4 +12,4 @@ def test_sp_mean_cupy():
     segments = np.load(ASSETS('beach_sp.npy'))
     y = sp_mean(im_test, segments)
     y_true = np.load(ASSETS('beach_sp_mean.npy'))
-    npt.assert_allclose(y, y_true)
+    npt.assert_allclose(y, y_true, rtol=1e-03)
