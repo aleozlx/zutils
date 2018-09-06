@@ -78,7 +78,7 @@ def read_resize_00lycon(fname, image_resize, greyscale=False):
 
 @candidate('read_resize')
 def read_resize_01skimage(fname, image_resize, greyscale=False):
-    return skimage_transform.resize(skimage_io.imread(fname, as_grey=greyscale), image_resize) * 255.0
+    return (skimage_transform.resize(skimage_io.imread(fname, as_gray=greyscale), image_resize, mode='reflect', anti_aliasing=True) * 255.0).astype('u1')
 
 @candidate('sp_mean')
 def sp_mean_00cupy(image, segments):
