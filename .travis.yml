@@ -4,7 +4,7 @@ python:
 install:
   - pip install wheel six pytest
   - pip install numpy scipy scikit-image
-test_script:
+script:
   - python -m pytest
 branches:
   only:
