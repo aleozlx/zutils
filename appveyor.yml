@@ -1,9 +1,9 @@
 image: ubuntu
 version: 0.1.{build}
 install:
-- apt install python3-pip
-- pip3 install wheel six pytest
-- pip3 install numpy scipy scikit-image
+- sudo apt install python3-pip
+- sudo pip3 install wheel six pytest
+- sudo pip3 install numpy scipy scikit-image
 test_script:
 - python3 -m pytest
 build: off
