@@ -1,4 +1,8 @@
 image: ubuntu
+stack: python 3.6
+version: 0.1.{build}
+init:
+- pip install pytest
 # install:
 # - npm install
 test_script:
