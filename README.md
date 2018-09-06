@@ -9,7 +9,6 @@ Machine Learning / Computer Vision processing utility
   * Rely on testing to achieve sustainability.
 * Lazy backend import to accelerate launch time.
 * Source code is written in a way that won't make pylint scream.
-* Big fan on open source community. To hell with proprietary b.s.
 
 ## Usage
 
@@ -26,3 +25,7 @@ To check API backend selection:
 ### zutils.io
 
 * `read_resize(fname, image_resize, greyscale=False)`
+
+## TODO
+
+* [ ] + CI
