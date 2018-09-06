@@ -1,9 +1,9 @@
 language: python
 python:
-  - "3.7-dev"
+  - "3.6"
 install:
-  - pip install wheel six pytest
-  - pip install numpy scipy
+  # - pip install wheel six pytest
+  - pip install numpy>=1.15.0
   - pip install scikit-image>=0.14.0
 script:
   - python -m pytest
