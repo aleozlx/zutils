@@ -24,3 +24,6 @@ def test_sp_mean():
     y = sp_mean(im_test, segments)
     y_true = np.load(ASSETS('beach_sp_mean.npy'))
     npt.assert_allclose(y, y_true, rtol=0.005)
+
+def test_sp_backfill():
+    pass

@@ -32,4 +32,5 @@ To check API backend selection:
 
 * [x] + CI
 * [x] + setup.py
+* [ ] + sp_backfill tests
 * [ ] refine documentation

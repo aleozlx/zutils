@@ -92,3 +92,22 @@ def sp_mean_01numpy(image, segments):
     N_segments = np.max(segments)+1
     masks = segments[None,...] == np.arange(N_segments)[...,None,None]
     return np.sum(image[None,...] * masks, axis = (1,2)) / np.sum(masks, axis = (1,2))
+
+@candidate('sp_backfill')
+def sp_backfill_00cupy(image_sp, segments):
+    image_sp, segments = cp.asarray(image_sp), cp.asarray(segments)
+    N_segments = np.asscalar(cp.asnumpy(cp.max(segments)+1))
+    u = cp.asarray(np.resize(image_sp, N_segments))
+    r = cp.empty(segments.shape)
+    for m in range(N_segments):
+        r[segments == m] = u[m]
+    return r
+
+@candidate('sp_backfill')
+def sp_backfill_01numpy(image_sp, segments):
+    N_segments = np.max(segments)+1
+    u = np.resize(image_sp, N_segments)
+    r = np.empty(segments.shape)
+    for m in range(N_segments):
+        r[segments == m] = u[m]
+    return r
