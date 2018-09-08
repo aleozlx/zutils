@@ -31,5 +31,5 @@ To check API backend selection:
 ## TODO
 
 * [x] + CI
-* [ ] + setup.py
+* [x] + setup.py
 * [ ] refine documentation
