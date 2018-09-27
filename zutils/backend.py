@@ -21,11 +21,23 @@ def inject(symbol, f, priority):
         candidate_heaps[symbol] = list()
     heapq.heappush(candidate_heaps[symbol], (priority, f))
 
-def candidate(symbol):
+def candidate(symbol, decorators = None):
+    """ Register an implementation candidate.
+
+        Parameters
+        ----------
+        symbol : str
+            Name of the symbol to export as.
+        decorators : () -> list
+            a list of decorators to apply to the implementation IF the backend exists
+    """
     def candidate_decorator(f):
         m = rule_candidate.match(f.__name__)
         if m and symbol == m.group('symbol'):
             if specs[m.group('backend')]:
+                if decorators:
+                    for dependent_decorator in decorators():
+                        f = dependent_decorator(f)
                 inject(symbol, f, int(m.group('priority')))
         else:
             raise Exception('Malformed candidate function name: {}'.format(f.__name__))
@@ -100,8 +112,7 @@ def sp_mean_01numpy(image, segments):
     masks = segments[None,...] == np.arange(N_segments)[...,None,None]
     return np.sum(image[None,...] * masks, axis = (1,2)) / np.sum(masks, axis = (1,2))
 
-@candidate('sp_backfill')
-@jit
+@candidate('sp_backfill', lambda: [numba.jit])
 def sp_backfill_01numba(image_sp, segments):
     N_segments = np.max(segments)+1
     u = np.resize(image_sp, N_segments)
