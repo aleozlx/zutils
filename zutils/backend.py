@@ -9,7 +9,8 @@ specs = {
     'skimage.io': find_spec('skimage.io'),
     'skimage.transform': find_spec('skimage.transform'),
     'numpy': find_spec('numpy'),
-    'cupy': find_spec('cupy')
+    'cupy': find_spec('cupy'),
+    'numba': find_spec('numba')
 }
 
 candidate_heaps = dict()
@@ -65,6 +66,7 @@ skimage_transform = optional_import('skimage.transform')
 skimage_io = optional_import('skimage.io')
 np = optional_import('numpy')
 cp = optional_import('cupy')
+numba = optional_import('numba')
 
 @candidate('read_resize')
 def read_resize_00lycon(fname, image_resize, greyscale=False):
@@ -94,17 +96,27 @@ def sp_mean_01numpy(image, segments):
     return np.sum(image[None,...] * masks, axis = (1,2)) / np.sum(masks, axis = (1,2))
 
 @candidate('sp_backfill')
-def sp_backfill_00cupy(image_sp, segments):
-    image_sp, segments = cp.asarray(image_sp), cp.asarray(segments)
-    N_segments = np.asscalar(cp.asnumpy(cp.max(segments)+1))
-    u = cp.asarray(np.resize(image_sp, N_segments))
-    r = cp.empty(segments.shape)
+@numba.jit
+def sp_backfill_01numba(image_sp, segments):
+    N_segments = np.max(segments)+1
+    u = np.resize(image_sp, N_segments)
+    r = np.empty(segments.shape)
     for m in range(N_segments):
         r[segments == m] = u[m]
     return r
 
 @candidate('sp_backfill')
-def sp_backfill_01numpy(image_sp, segments):
+def sp_backfill_00cupy(image_sp, segments):
+    segments = cp.asarray(segments)
+    N_segments = np.asscalar(cp.asnumpy(cp.max(segments)+1))
+    u = cp.asarray(np.resize(image_sp, N_segments))
+    r = cp.empty(segments.shape)
+    for m in range(N_segments):
+        r[segments == m] = u[m]
+    return cp.asnumpy(r)
+
+@candidate('sp_backfill')
+def sp_backfill_02numpy(image_sp, segments):
     N_segments = np.max(segments)+1
     u = np.resize(image_sp, N_segments)
     r = np.empty(segments.shape)

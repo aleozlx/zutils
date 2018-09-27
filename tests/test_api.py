@@ -2,7 +2,7 @@ import os, sys
 import numpy as np
 from numpy import testing as npt
 from zutils.io import read_resize
-from zutils.processing import sp_mean
+from zutils.processing import sp_mean, sp_backfill
 
 ASSETS = lambda fname: os.path.join(os.path.dirname(__file__), 'assets', fname)
 
@@ -26,4 +26,8 @@ def test_sp_mean():
     npt.assert_allclose(y, y_true, rtol=0.005)
 
 def test_sp_backfill():
-    pass
+    x = np.load(ASSETS('beach_sp_mean.npy'))
+    segments = np.load(ASSETS('beach_sp.npy'))
+    y = sp_backfill(x, segments)
+    y_true = np.load(ASSETS('beach_sp_restore.npy'))
+    npt.assert_allclose(y, y_true, rtol=0.005)
