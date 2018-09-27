@@ -6,7 +6,7 @@ from zutils.io import read_resize
 
 ASSETS = lambda fname: os.path.join(os.path.dirname(__file__), 'assets', fname)
 
-def test_sp_backfill_numpy():
+def test_sp_backfill_numba():
     sp_backfill = select('sp_backfill', backend='numba')
     x = np.load(ASSETS('beach_sp_mean.npy'))
     segments = np.load(ASSETS('beach_sp.npy'))
