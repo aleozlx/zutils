@@ -27,7 +27,3 @@ To check API backend selection:
 ### zutils.io
 
 * `read_resize(fname, image_resize, greyscale=False)`
-
-## TODO
-
-* [ ] refine documentation

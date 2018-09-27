@@ -17,6 +17,17 @@ candidate_heaps = dict()
 rule_candidate = re.compile(r'^(?P<symbol>\w+)_(?P<priority>\d{2})(?P<backend>\w+)$')
 
 def inject(symbol, f, priority):
+    """ Inject an implementation into the candidate heap.
+
+        Parameters
+        ----------
+        symbol : str
+            Name of the symbol to export as.
+        f : function
+            The implementation.
+        priority : int
+            Priority value of the implementation, which starts from 0. Lower is better.
+    """
     if symbol not in candidate_heaps:
         candidate_heaps[symbol] = list()
     heapq.heappush(candidate_heaps[symbol], (priority, f))
@@ -45,6 +56,17 @@ def candidate(symbol, decorators = None):
     return candidate_decorator
 
 def optional_import(module):
+    """ Optionally import a dependent module that may not exist in a lazy manner.
+
+        Parameters
+        ----------
+        module : str
+            Name of the module.
+
+        Returns
+        -------
+        The module optionally imported or None if it does not exist.
+    """
     spec = specs.get(module)
     if spec:
         m = module_from_spec(spec)
@@ -59,7 +81,15 @@ def optional_import(module):
         return m
 
 def select(symbol, backend = None):
-    """ Select implementation from specific backend or top of candidate heap. """
+    """ Select implementation from specific backend or top of candidate heap.
+    
+    Parameters
+    ----------
+    symbol : str
+        Name of the symbol to export as.
+    backend : str
+        Name of the backend.
+    """
     if symbol in candidate_heaps:
         if backend is None:
             _, f = candidate_heaps[symbol][0]
@@ -79,11 +109,6 @@ skimage_io = optional_import('skimage.io')
 np = optional_import('numpy')
 cp = optional_import('cupy')
 numba = optional_import('numba')
-if numba:
-    jit = numba.jit
-else:
-    # ? also handle decorator with arguments?
-    jit = lambda x: x
 
 @candidate('read_resize')
 def read_resize_00lycon(fname, image_resize, greyscale=False):
