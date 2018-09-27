@@ -30,7 +30,4 @@ To check API backend selection:
 
 ## TODO
 
-* [x] + CI
-* [x] + setup.py
-* [ ] + sp_backfill tests
 * [ ] refine documentation

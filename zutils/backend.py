@@ -67,6 +67,11 @@ skimage_io = optional_import('skimage.io')
 np = optional_import('numpy')
 cp = optional_import('cupy')
 numba = optional_import('numba')
+if numba:
+    jit = numba.jit
+else:
+    # ? also handle decorator with arguments?
+    jit = lambda x: x
 
 @candidate('read_resize')
 def read_resize_00lycon(fname, image_resize, greyscale=False):
@@ -96,7 +101,7 @@ def sp_mean_01numpy(image, segments):
     return np.sum(image[None,...] * masks, axis = (1,2)) / np.sum(masks, axis = (1,2))
 
 @candidate('sp_backfill')
-@numba.jit
+@jit
 def sp_backfill_01numba(image_sp, segments):
     N_segments = np.max(segments)+1
     u = np.resize(image_sp, N_segments)
